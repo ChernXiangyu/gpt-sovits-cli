@@ -16,6 +16,10 @@ gpt_sovits/
 # --- generated audio ---
 output/
 
+# --- upstream runtime scratch (created in cwd when upstream_path == project root) ---
+TEMP/
+weight.json
+
 # --- inputs (may contain third-party text; bring your own) ---
 inputs/*
 !inputs/strip_md.py
