@@ -12,19 +12,33 @@ import inference_webui as _iw  # noqa: E402  (imported only after bootstrap)
 # Our short codes -> upstream's internal language values (the values in
 # dict_language). These match what `get_phones_and_bert(text, language, ...)`
 # expects internally.
+#
+# `zh` maps to the upstream *mixed* mode (`"zh"`), NOT `"all_zh"`. The `all_zh`
+# path force-uppercases every Latin letter (`re.sub(r'[a-z]', upper, ...)`),
+# which breaks english.py's name-dictionary lookup — that lookup requires
+# `istitle()` ("Adam"), and uppercased "ADAM" fails it, so names fall through to
+# a garbled G2P guess. Mixed mode leaves casing intact, tags Latin spans as `en`,
+# and forces every non-English span to Chinese (no Japanese leakage).
 _SHORT_TO_RAW = {
-    "zh": "all_zh",      # all-Chinese
-    "en": "en",
+    "zh": "zh",          # Chinese, or Chinese + English mixed
+    "en": "en",          # all-English
     "ja": "all_ja",
     "ko": "all_ko",
     "yue": "all_yue",
-    "zh_en": "zh",       # Chinese + English mixed
+    "zh_en": "zh",
     "ja_en": "ja",
     "ko_en": "ko",
     "yue_en": "yue",
     "auto": "auto",
     "auto_yue": "auto_yue",
 }
+
+# Languages allowed for the *target* (synthesized) text. Deliberately limited to
+# Chinese / English: the upstream `auto` and `ja`/`ko`/`yue` modes let the
+# language segmenter tag spans as Japanese (etc.), which leaks foreign-accented
+# pronunciation into the output. The reference audio language is unrestricted
+# (a Japanese reference clip is fine; only the output is fixed).
+_TARGET_ALLOWED = {"zh", "en"}
 
 
 def _to_dict_language_key(short: str) -> str:
@@ -65,7 +79,7 @@ def synthesize(
     ref_language: str,
     target_language: str,
     *,
-    how_to_cut: str = "凑四句一切",
+    how_to_cut: str = "按中文句号。切",
     top_k: int = 20,
     top_p: float = 0.6,
     temperature: float = 0.6,
@@ -74,6 +88,12 @@ def synthesize(
     pause_second: float = 0.3,
 ):
     """Run TTS. Returns (sample_rate, int16 audio ndarray)."""
+    if target_language not in _TARGET_ALLOWED:
+        raise ValueError(
+            f"Target language {target_language!r} is not allowed; output is "
+            f"limited to Chinese/English. Use one of {sorted(_TARGET_ALLOWED)} "
+            f"('zh' also covers Chinese+English mixed text)."
+        )
     ref_lang = _to_dict_language_key(ref_language)
     tgt_lang = _to_dict_language_key(target_language)
     gen = _iw.get_tts_wav(

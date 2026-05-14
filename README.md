@@ -114,6 +114,21 @@ uv run gpt-sovits-infer list
 
 Or double-click **`run.bat`** with arguments via a Windows shortcut.
 
+### Output language
+
+The synthesized output is limited to Chinese/English. The **default is `zh`,
+which is Chinese-English mixed mode** — Chinese text reads as Chinese, embedded
+Latin words/names (e.g. `Adam Smith`, `human capital`) read as English, and
+casing is preserved so the English G2P resolves names correctly. Use `-l en`
+for all-English text.
+
+The reference audio (`ref_language` in `voice.toml`) can still be any
+language — only the generated speech is constrained, so the segmenter never
+tags spans as Japanese/Korean.
+
+Long text is split by Chinese period (。) and synthesized sentence by sentence,
+which keeps the autoregressive model from drifting into repetition.
+
 ## Why is upstream_path needed?
 
 The pretrained base models V3 inference depends on are too large to duplicate

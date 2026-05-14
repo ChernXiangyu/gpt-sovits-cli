@@ -17,7 +17,7 @@ def synth(
     text: str = typer.Argument(None, help="Target text. If omitted, --text-file is required."),
     voice: str = typer.Option(None, "-v", "--voice", help="Voice name (defaults to config)"),
     output: Path = typer.Option(Path("output/out.wav"), "-o", "--output", help="Output wav path (relative to project root)"),
-    lang: str = typer.Option(None, "-l", "--lang", help="Target language (zh/en/ja/auto/...)"),
+    lang: str = typer.Option(None, "-l", "--lang", help="Target language: zh (Chinese / Chinese+English mixed) or en"),
     text_file: Path = typer.Option(None, "--text-file", help="Read target text from file instead"),
     top_k: int = typer.Option(20, "--top-k"),
     top_p: float = typer.Option(0.6, "--top-p"),

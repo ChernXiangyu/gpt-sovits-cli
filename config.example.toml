@@ -11,5 +11,5 @@ default_voice = "example"
 # Where synthesized wavs are written (relative to project root).
 output_dir = "output"
 
-# zh | en | ja | ko | yue | auto
+# zh (Chinese, or Chinese+English mixed) | en (all-English)
 default_target_language = "zh"

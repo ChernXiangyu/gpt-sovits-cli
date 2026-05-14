@@ -15,4 +15,5 @@ ref_audio    = "ref.wav"
 ref_text     = "REPLACE WITH THE EXACT TRANSCRIPT OF ref.wav"
 
 # Language of the reference audio: zh | en | ja | ko | yue | auto
+# (this is the language of ref.wav itself, not the synthesized output)
 ref_language = "zh"
