@@ -1,0 +1,48 @@
+# --- local config (user-specific paths) ---
+config.toml
+
+# --- voice profiles ---
+# Voice models are user-supplied (license/copyright varies by source).
+# Everything under voices/<name>/ is ignored EXCEPT the example template.
+voices/*/
+!voices/example/
+
+# --- vendored upstream ---
+# gpt_sovits/ is a snapshot of subdirs from the upstream GPT-SoVITS repo
+# (https://github.com/RVC-Boss/GPT-SoVITS). It's not redistributed here —
+# users restore it from their upstream install. See README "Setup".
+gpt_sovits/
+
+# --- generated audio ---
+output/
+
+# --- inputs (may contain third-party text; bring your own) ---
+inputs/*
+!inputs/strip_md.py
+
+# --- local wheels (users supply their own per Setup notes) ---
+wheels/*
+!wheels/.gitkeep
+
+# --- python / uv ---
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+.uv-cache/
+*.egg-info/
+build/
+dist/
+
+# --- editors / OS ---
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# --- misc ---
+*.log
+uv.lock
+uv.lock.local

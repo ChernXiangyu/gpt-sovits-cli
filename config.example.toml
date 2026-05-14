@@ -1,0 +1,15 @@
+# Copy this file to config.toml and edit the values below.
+
+# Path to an existing GPT-SoVITS install. Only its `GPT_SoVITS/pretrained_models/`
+# subtree is used (BERT, cnhubert, BigVGAN, V3 base) — too large to duplicate here.
+# Example: "D:/GPT-SoVITS/GPT-SoVITS-v3lora-20250228"
+upstream_path = "/path/to/GPT-SoVITS-install"
+
+# Default voice profile (a subdirectory under voices/ with a voice.toml).
+default_voice = "example"
+
+# Where synthesized wavs are written (relative to project root).
+output_dir = "output"
+
+# zh | en | ja | ko | yue | auto
+default_target_language = "zh"

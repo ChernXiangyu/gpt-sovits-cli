@@ -1,0 +1,18 @@
+# Template voice profile. Copy this directory to voices/<your-voice-name>/
+# and drop your model files alongside it:
+#
+#   voices/<your-voice-name>/
+#     gpt.ckpt         # GPT model checkpoint
+#     sovits.pth       # SoVITS model weights (V3 LoRA delta on top of upstream s2Gv3.pth)
+#     ref.wav          # short reference clip in the target speaker's voice (3-10 s)
+#     voice.toml       # this file
+
+gpt_model    = "gpt.ckpt"
+sovits_model = "sovits.pth"
+ref_audio    = "ref.wav"
+
+# Exact transcript of ref.wav. Must match the audio precisely.
+ref_text     = "REPLACE WITH THE EXACT TRANSCRIPT OF ref.wav"
+
+# Language of the reference audio: zh | en | ja | ko | yue | auto
+ref_language = "zh"

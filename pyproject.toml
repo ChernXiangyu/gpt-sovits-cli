@@ -1,0 +1,79 @@
+[project]
+name = "gpt-sovits-infer"
+version = "0.1.0"
+description = "Standalone command-line inference for GPT-SoVITS V3"
+requires-python = ">=3.9,<3.10"
+dependencies = [
+    # Torch stack (Blackwell-compatible)
+    "torch==2.8.0",
+    "torchvision==0.23.0",
+    "torchaudio==2.8.0",
+    # Numerical
+    "numpy==1.23.4",
+    "scipy==1.9.3",
+    "numba==0.56.4",
+    # Audio I/O
+    "librosa==0.9.2",
+    "soundfile",
+    "ffmpeg-python==0.2.0",
+    # ML
+    "transformers==4.43.0",
+    "tokenizers==0.19.1",
+    "peft==0.14.0",
+    "pytorch-lightning==2.1.3",
+    "x-transformers==2.0.2",
+    "rotary-embedding-torch==0.6.4",
+    "sentencepiece==0.1.99",
+    "onnxruntime==1.18.1",
+    "onnxruntime-gpu==1.18.1",
+    # G2P / text
+    "jieba==0.42.1",
+    "jieba-fast==0.53",
+    "pyopenjtalk-prebuilt",
+    "g2p-en==2.1.0",
+    "pypinyin==0.50.0",
+    "cn2an==0.5.22",
+    "ToJyutping==3.2.0",
+    "g2pk2==0.0.3",
+    "ko-pron==1.3",
+    "OpenCC==1.1.8",
+    "split-lang==2.0.6",
+    "fast-langdetect==0.2.5",
+    "wordsegment==1.3.1",
+    "nltk",
+    # Misc
+    "matplotlib",  # AR.modules.lr_schedulers + torchmetrics.utilities.plot import it
+    "pyyaml",
+    "attrdict==2.0.1",
+    "chardet==5.2.0",
+    "psutil==5.9.7",
+    "tqdm",
+    # CLI
+    "typer",
+    "tomli; python_version < '3.11'",
+    # Runtime fix: pyopenjtalk-prebuilt imports pkg_resources (dropped from setuptools >= 70)
+    "setuptools<70",
+]
+
+[project.scripts]
+gpt-sovits-infer = "gpt_sovits_infer.cli:app"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["gpt_sovits_infer"]
+
+[tool.uv]
+find-links = ["./wheels"]
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu128" }
+torchvision = { index = "pytorch-cu128" }
+torchaudio = { index = "pytorch-cu128" }
+
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
